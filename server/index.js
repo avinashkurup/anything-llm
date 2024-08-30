@@ -24,6 +24,11 @@ const { workspaceThreadEndpoints } = require("./endpoints/workspaceThreads");
 const { documentEndpoints } = require("./endpoints/document");
 const { agentWebsocket } = require("./endpoints/agentWebsocket");
 const { experimentalEndpoints } = require("./endpoints/experimental");
+// const { ConnectDataBase } = require("./endpoints/dbconnect");
+const databaseRoutes = require("./endpoints/dbconnect");
+// const router = require('./server/routes/router.js')
+
+
 const app = express();
 const apiRouter = express.Router();
 const FILE_LIMIT = "3GB";
@@ -44,7 +49,11 @@ if (!!process.env.ENABLE_HTTPS) {
   require("@mintplex-labs/express-ws").default(app); // load WebSockets in non-SSL mode.
 }
 
+// app.use('/database', databaseRoutes);
+
 app.use("/api", apiRouter);
+// app.use('/database/getdatabses',router)
+app.use('/api/database', databaseRoutes);
 systemEndpoints(apiRouter);
 extensionEndpoints(apiRouter);
 workspaceEndpoints(apiRouter);
@@ -58,6 +67,7 @@ documentEndpoints(apiRouter);
 agentWebsocket(apiRouter);
 experimentalEndpoints(apiRouter);
 developerEndpoints(app, apiRouter);
+// databaseRoutes(apiRouter);
 
 // Externally facing embedder endpoints
 embeddedEndpoints(apiRouter);

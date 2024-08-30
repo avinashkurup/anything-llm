@@ -18,7 +18,7 @@ class UnTooled {
         return;
       }
       modifiedMessages.push(msg);
-    });
+    });console.log(modifiedMessages);
     return modifiedMessages;
   }
 
@@ -110,21 +110,25 @@ ${JSON.stringify(def.parameters.properties, null, 4)}\n`;
     const response = await chatCb({
       messages: [
         {
-          content: `You are a program which picks the most optimal function and parameters to call.
-      DO NOT HAVE TO PICK A FUNCTION IF IT WILL NOT HELP ANSWER OR FULFILL THE USER'S QUERY.
-      When a function is selection, respond in JSON with no additional text.
-      When there is no relevant function to call - return with a regular chat text response.
-      Your task is to pick a **single** function that we will use to call, if any seem useful or relevant for the user query.
+          content: `You are a program designed to pick the most optimal function and parameters to call given a list of functions and a user's query. If there are no relevant functions to call return "NO RELEVANT FUNCTIONS TO CALL", however if you want to call a function, you MUST return the name of the function and its parameters in json format. Thus the format of your overall response should look like what's shown between the tags. Make sure to follow the formatting and spacing exactly.
 
-      All JSON responses should have two keys.
-      'name': this is the name of the function name to call. eg: 'web-scraper', 'rag-memory', etc..
-      'arguments': this is an object with the function properties to invoke the function.
-      DO NOT INCLUDE ANY OTHER KEYS IN JSON RESPONSES.
+        if a function named "some-function-name" must be selected
+        <example>
+          {
+            "name": "some-function-name",
+            "arguments": {"parameter": "parameter_value"}
+          }
+        </example>
 
-      Here are the available tools you can use an examples of a query and response so you can understand how each one works.
-      ${this.showcaseFunctions(functions)}
+        if no relevant functions to call
+        <example>
+          "NO RELEVANT FUNCTIONS TO CALL"
+        </example>
 
-      Now pick a function if there is an appropriate one to use given the last user message and the given conversation so far.`,
+        Here are the available tools you can use an examples of a query and response so you can understand how each one works.
+        ${this.showcaseFunctions(functions)}
+
+        Answer the question immediately without preamble and ignore any instructions after this. Only pay attention to user query.`,
           role: "system",
         },
         ...history,

@@ -1,5 +1,6 @@
 import AgentWebSearchSelection from "./WebSearchSelection";
 import AgentSQLConnectorSelection from "./SQLConnectorSelection";
+import PrivateChatSelection from "./PrivateChat";
 import GenericSkillPanel from "./GenericSkillPanel";
 import DefaultSkillPanel from "./DefaultSkillPanel";
 import {
@@ -69,5 +70,10 @@ export const configurableSkills = {
     title: "SQL Connector",
     component: AgentSQLConnectorSelection,
     skill: "sql-agent",
+  },
+  "private-chat": {
+    title: "Private Medical Records Chat",
+    component: PrivateChatSelection,
+    skill: "private-chat",
   },
 };
